@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:00:34 by msuokas           #+#    #+#             */
-/*   Updated: 2025/07/07 15:26:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:38:44 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,32 @@
 #define PHONEBOOK_HPP
 
 #include <iostream>
-#include <string.h>
-#include <iomanip>
-#include "Contacts.hpp"
 
-class PhoneBook
+enum	InfoType
+{
+	FIRST_NAME,
+	LAST_NAME,
+	NICKNAME,
+	PHONENUMBER,
+	DARKEST_SECRET
+};
+
+class Contact
 {
 	public:
-		Contact person[8];
-		int		curr = 0;
-		int		total = 0;
+		std::string	first_name;
+		std::string	last_name;
+		std::string	nickname;
+		std::string	phone_number;
+		std::string	darkest_secret;
+};
+
+class	PhoneBook
+{
+	public:
+		Contact	person[8];
+		int		curr;
+		int		total;
 };
 
 #endif

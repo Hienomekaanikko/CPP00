@@ -6,200 +6,210 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 12:00:31 by msuokas           #+#    #+#             */
-/*   Updated: 2025/07/07 16:26:43 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:41:39 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
 
-int	is_digits(std::string value)
+void truncate(const std::string& line)
 {
-	int	i = 0;
+	int	len = 0;
 
-	while (value[i])
+	while (line[len])
+		len++;
+	if (len > 10)
 	{
-		if (!std::isdigit(value[i]))
-			return (0);
-		i++;
+		for (int i = 0; i < 9; ++i)
+			std::cout << line[i];
+		std::cout << ".";
 	}
-	return (1);
-}
-
-int	ask_index(PhoneBook& contacts, std::string index)
-{
-	int	converted_index;
-
-	std::cout << "Enter the index of a person for more information\n";
-	while (1)
-	{
-		std::getline(std::cin, index);
-		if (index == "EXIT")
-			return (-1);
-		if (!is_digits(index))
-		{
-			std::cout << "Invalid input: The index can be only positive digits.\n";
-			continue ;
-		}
-		converted_index = std::stoi(index);
-		if (converted_index >= contacts.total || converted_index < 0)
-			std::cout << "Out of range, try again\n";
-		else
-			break ;
-	}
-	return (converted_index);
-}
-
-void	search_contact(PhoneBook& contacts)
-{
-	std::string	index;
-	int			i = 0;
-	int			id;
-
-	while (i < contacts.total)
-	{
-		std::cout << std::setw(10) << std::right << i << "|";
-		std::cout << std::setw(10) << std::right << contacts.person[i].first_name << "|";
-		std::cout << std::setw(10) << std::right << contacts.person[i].last_name << "|";
-		std::cout << std::setw(10) << std::right << contacts.person[i].nickname << "\n";
-		i++;
-	}
-	id = ask_index(contacts, index);
-	if (id == -1)
-		return ;
 	else
 	{
-		std::cout << contacts.person[id].first_name << "\n";
-		std::cout << contacts.person[id].last_name << "\n";
-		std::cout << contacts.person[id].phonenumber << "\n";
-		std::cout << contacts.person[id].nickname << "\n";
-		std::cout << contacts.person[id].darkest_secret << "\n";
+		for (int i = 0; i < 10 - len; ++i)
+			std::cout << " ";
+		for (int i = 0; i < len; ++i)
+			std::cout << line[i];
 	}
 }
 
-std::string	truncate(const std::string& line)
+bool	is_all_digits(const std::string& str)
 {
-	std::string	new_line;
-
-	if (line.length() <= 10)
-		return (line);
-	new_line = line.substr(0, 10);
-	new_line[9] = '.';
-	return (new_line);
+	for (char c : str)
+	{
+		if (!std::isdigit(c))
+			return (false);
+	}
+	return (!str.empty());
 }
 
-int	add_contact(PhoneBook& contacts)
+void	print_column_headers(int status)
 {
-	std::string	line;
-	std::string trunc_line;
+	truncate ("Index: ");
+	std::cout << "|";
+	truncate ("First nam: ");
+	std::cout << "|";
+	truncate ("Last nam: ");
+	std::cout << "|";
+	truncate ("Nickname: ");
+	if (status == 2)
+	{
+		std::cout << "|";
+		truncate ("Phone num: ");
+		std::cout << "|";
+		truncate ("Darkest sec: ");
+	}
+	std::cout << "\n";
+}
 
-	if (contacts.curr == 8)
-		contacts.curr = 0;
-	std::cout << "Add first name: \n";
-	if (!std::getline(std::cin, line))
+void	show_info(PhoneBook& book)
+{
+	std::string	input;
+	int			i = 0;
+	int			index = -1;
+
+	print_column_headers(1);
+	while (i < book.total)
 	{
-		std::cout << "\nInput error or EOF detected.\n";
-		return (0);
+		truncate(std::to_string(i));
+		std::cout << "|";
+		truncate(book.person[i].first_name);
+		std::cout << "|";
+		truncate(book.person[i].last_name);
+		std::cout << "|";
+		truncate(book.person[i].nickname);
+		std::cout << "\n";
+		i++;
 	}
-	if (line == "")
+	std::cout << "Type index for more information: \n";
+	std::cin >> input;
+	if (is_all_digits(input))
 	{
-		std::cout << "Contact creation failed: Empty fields not allowed\n";
-		return (1);
+		index = std::stoi(input);
+		if (index > book.total - 1)
+		{
+			std::cout << "ERROR: Index out of range\n";
+			return ;
+		}
 	}
-	trunc_line = truncate(line);
-	line = "";
-	contacts.person[contacts.curr].first_name = trunc_line;
-	std::cout << "Add last name: \n";
-	if (!std::getline(std::cin, line))
+	else
 	{
-		std::cout << "\nInput error or EOF detected.\n";
-		return (0);
+		std::cout << "ERROR: Index must be positive value within the range of available indexes\n";
+		return ;
 	}
-	if (line == "")
+	print_column_headers(2);
+	if (index >= 0 && index < book.total)
 	{
-		std::cout << "Contact creation failed: Empty fields not allowed\n";
-		return (1);
+		truncate(std::to_string(index));
+		std::cout << "|";
+		truncate(book.person[index].first_name);
+		std::cout << "|";
+		truncate(book.person[index].last_name);
+		std::cout << "|";
+		truncate(book.person[index].nickname);
+		std::cout << "|";
+		truncate(book.person[index].phone_number);
+		std::cout << "|";
+		truncate(book.person[index].darkest_secret);
+		std::cout << "\n";
 	}
-	trunc_line = truncate(line);
-	line = "";
-	contacts.person[contacts.curr].last_name =  trunc_line;
-	std::cout << "Add nickname: \n";
-	if (!std::getline(std::cin, line))
+}
+
+int	add_info(PhoneBook& book, InfoType type)
+{
+	while (1)
 	{
-		std::cout << "\nInput error or EOF detected.\n";
-		return (0);
+		if (type == FIRST_NAME)
+		{
+			std::cout << "First name (can't leave empty): \n";
+			std::cin >> book.person[book.curr].first_name;
+			if (!book.person[book.curr].first_name.empty())
+				break ;
+			else
+				return (-1);
+		}
+		else if (type == LAST_NAME)
+		{
+			std::cout << "Last name (can't leave empty): \n";
+			std::cin >> book.person[book.curr].last_name;
+			if (!book.person[book.curr].last_name.empty())
+				break ;
+			else
+				return (-1);
+		}
+		else if (type == NICKNAME)
+		{
+			std::cout << "Nickname (can't leave empty): \n";
+			std::cin >> book.person[book.curr].nickname;
+			if (!book.person[book.curr].nickname.empty())
+				break ;
+			else
+				return (-1);
+		}
+		else if (type == PHONENUMBER)
+		{
+			std::cout << "Phonenumber (can't leave empty): \n";
+			std::cin >> book.person[book.curr].phone_number;
+			if (!book.person[book.curr].phone_number.empty())
+				break ;
+			else
+				return (-1);
+		}
+		else if (type == DARKEST_SECRET)
+		{
+			std::cout << "Darkest secret (can't leave empty): \n";
+			std::cin >> book.person[book.curr].darkest_secret;
+			if (!book.person[book.curr].darkest_secret.empty())
+				break ;
+			else
+				return (-1);
+		}
 	}
-	if (line == "")
-	{
-		std::cout << "Contact creation failed: Empty fields not allowed\n";
-		return (1);
-	}
-	trunc_line = truncate(line);
-	line = "";
-	contacts.person[contacts.curr].nickname =  trunc_line;
-	std::cout << "Add phonenumber: \n";
-	if (!std::getline(std::cin, line))
-	{
-		std::cout << "\nInput error or EOF detected.\n";
-		return (0);
-	}
-	if (line == "")
-	{
-		std::cout << "Contact creation failed: Empty fields not allowed\n";
-		return (1);
-	}
-	trunc_line = truncate(line);
-	line = "";
-	if (!is_digits(line))
-	{
-		std::cout << "Contact creation failed: Phone number can be only numbers... :(";
-		return (1);
-	}
-	trunc_line = truncate(line);
-	line = "";
-	contacts.person[contacts.curr].phonenumber =  trunc_line;
-	std::cout << "Add darkest secret: \n";
-	if (!std::getline(std::cin, line))
-	{
-		std::cout << "\nInput error or EOF detected.\n";
-		return (0);
-	}
-	if (line == "")
-	{
-		std::cout << "Contact creation failed: Empty fields not allowed\n";
-		return (1);
-	}
-	trunc_line = truncate(line);
-	line = "";
-	contacts.person[contacts.curr].darkest_secret =  trunc_line;
-	if (contacts.total < 8)
-		contacts.total++;
-	contacts.curr++;
+	return (0);
+}
+
+int	add_contact(PhoneBook& book)
+{
+	if (add_info(book, FIRST_NAME) == -1)
+		return (-1);
+	if (add_info(book, LAST_NAME) == -1)
+		return (-1);
+	if (add_info(book, NICKNAME) == -1)
+		return (-1);
+	if (add_info(book, PHONENUMBER) == -1)
+		return (-1);
+	if (add_info(book, DARKEST_SECRET) == -1)
+		return (-1);
+	if (book.total < 8)
+		book.total++;
+	book.curr = (book.curr + 1) % 8;
 	return (1);
 }
 
 int	main(void)
 {
-	std::string	input;
-	PhoneBook	contacts;
+	PhoneBook	book;
+	std::string	action;
 
+	book.curr = 0;
+	book.total = 0;
 	while (1)
 	{
-		std::cout << "Type ADD to add a contact, SEARCH to look for contacts or EXIT to exit the phonebook.\n";
-		if (!std::getline(std::cin, input))
-		{
-			std::cout << "\nInput error or EOF detected.\n";
+		std::cout << "Type ADD to add a contact, SEARCH to look for a contact and EXIT to exit\n";
+		std::cin >> action;
+		if (action.empty())
 			break ;
-		}
-		if (input == "EXIT")
-			break;
-		else if (input == "ADD")
+		if (action == "EXIT")
+			break ;
+		else if (action == "ADD")
 		{
-			if (!add_contact(contacts))
-				break ;
+			if (add_contact(book) == -1)
+				break;
 		}
-		else if (input == "SEARCH")
-			search_contact(contacts);
-		input = "";
+		else if (action == "SEARCH")
+			show_info(book);
+		else
+			continue ;
 	}
 	return (0);
 }

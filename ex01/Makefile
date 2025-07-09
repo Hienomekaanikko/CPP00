@@ -1,6 +1,6 @@
 CC = c++
 FLAGS = -Wall -Werror -Wextra
-SRC = PhoneBook.cpp Contacts.cpp
+SRC = PhoneBook.cpp
 OBJ = $(SRC:.cpp=.o)
 RM = rm -f
 NAME = PhoneBook
@@ -16,7 +16,6 @@ clean:
 fclean:
 	$(RM) $(OBJ) $(NAME)
 
-re: clean
-	$(RM) $(NAME)
+re: fclean all
 
 .PHONY: all clean fclean re
