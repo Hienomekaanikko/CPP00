@@ -6,11 +6,16 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:35:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/07/09 16:25:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:30:49 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Account.hpp"
+
+void	Account::displayAccountsInfos(void)
+{
+	return(_totalNbWithdrawals);
+}
 
 int	Account::getNbWithdrawals(void)
 {
