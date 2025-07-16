@@ -8,13 +8,13 @@ NAME = PhoneBook
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
 
-fclean:
-	$(RM) $(OBJ) $(NAME)
+fclean: clean
+	$(RM) $(NAME)
 
 re: fclean all
 
