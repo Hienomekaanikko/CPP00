@@ -17,7 +17,7 @@ void	case_up(char *str)
 	int	i = 0;
 	while (str[i])
 	{
-		std::cout << (char)std::toupper(str[i]);
+		std::cout << (char)std::toupper(str[i]) << std::endl;
 		i++;
 	}
 	std::cout << " ";
@@ -28,11 +28,10 @@ int	main(int argc, char *argv[])
 	int	i = 1;
 
 	if (argc <= 1)
-		std::cout << "Type at least one argument\n";
+		std::cout << "Type at least one argument" << std::endl;
 	while (argv[i])
 	{
 		case_up(argv[i]);
 		i++;
 	}
-	std::cout << "\n";
 }

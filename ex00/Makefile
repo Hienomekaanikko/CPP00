@@ -1,5 +1,5 @@
 CC = c++
-FLAGS = -Wall -Werror -Wextra -std=c++98
+FLAGS = -Wall -Werror -Wextra
 SRC = megaphone.cpp
 OBJ = $(SRC:.cpp=.o)
 RM = rm -f

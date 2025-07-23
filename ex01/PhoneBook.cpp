@@ -22,14 +22,14 @@ void truncate(const std::string& line)
 	{
 		for (int i = 0; i < 9; ++i)
 			std::cout << line[i];
-		std::cout << ".";
+		std::cout << "." << std::endl;
 	}
 	else
 	{
 		for (int i = 0; i < 10 - len; ++i)
-			std::cout << " ";
+			std::cout << " " << std::endl;
 		for (int i = 0; i < len; ++i)
-			std::cout << line[i];
+			std::cout << line[i] << std::endl;
 	}
 }
 
@@ -46,20 +46,19 @@ bool	is_all_digits(const std::string& str)
 void	print_column_headers(int status)
 {
 	truncate ("Index: ");
-	std::cout << "|";
+	std::cout << "|" << std::endl;
 	truncate ("First nam: ");
-	std::cout << "|";
+	std::cout << "|" << std::endl;
 	truncate ("Last nam: ");
-	std::cout << "|";
+	std::cout << "|" << std::endl;
 	truncate ("Nickname: ");
 	if (status == 2)
 	{
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate ("Phone num: ");
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate ("Darkest sec: ");
 	}
-	std::cout << "\n";
 }
 
 void	show_info(PhoneBook& book)
@@ -72,46 +71,45 @@ void	show_info(PhoneBook& book)
 	while (i < book.total)
 	{
 		truncate(std::to_string(i));
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[i].first_name);
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[i].last_name);
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[i].nickname);
-		std::cout << "\n";
 		i++;
 	}
-	std::cout << "Type index for more information: \n";
+	std::cout << "Type index for more information: " << std::endl;
 	std::cin >> input;
 	if (is_all_digits(input))
 	{
 		index = std::stoi(input);
 		if (index > book.total - 1)
 		{
-			std::cout << "ERROR: Index out of range\n";
+			std::cout << "ERROR: Index out of range" << std::endl;
 			return ;
 		}
 	}
 	else
 	{
-		std::cout << "ERROR: Index must be positive value within the range of available indexes\n";
+		std::cout << "ERROR: Index must be positive value within the range of available indexes" << std::endl;
 		return ;
 	}
 	print_column_headers(2);
 	if (index >= 0 && index < book.total)
 	{
 		truncate(std::to_string(index));
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[index].first_name);
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[index].last_name);
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[index].nickname);
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[index].phone_number);
-		std::cout << "|";
+		std::cout << "|" << std::endl;
 		truncate(book.person[index].darkest_secret);
-		std::cout << "\n";
+		std::cout << "\n" << std::endl;
 	}
 }
 
@@ -121,7 +119,7 @@ int	add_info(PhoneBook& book, InfoType type)
 	{
 		if (type == FIRST_NAME)
 		{
-			std::cout << "First name (can't leave empty): \n";
+			std::cout << "First name (can't leave empty): " << std::endl;
 			std::cin >> book.person[book.curr].first_name;
 			if (!book.person[book.curr].first_name.empty())
 				break ;
@@ -130,7 +128,7 @@ int	add_info(PhoneBook& book, InfoType type)
 		}
 		else if (type == LAST_NAME)
 		{
-			std::cout << "Last name (can't leave empty): \n";
+			std::cout << "Last name (can't leave empty): " << std::endl;
 			std::cin >> book.person[book.curr].last_name;
 			if (!book.person[book.curr].last_name.empty())
 				break ;
@@ -139,7 +137,7 @@ int	add_info(PhoneBook& book, InfoType type)
 		}
 		else if (type == NICKNAME)
 		{
-			std::cout << "Nickname (can't leave empty): \n";
+			std::cout << "Nickname (can't leave empty): " << std::endl;
 			std::cin >> book.person[book.curr].nickname;
 			if (!book.person[book.curr].nickname.empty())
 				break ;
@@ -148,7 +146,7 @@ int	add_info(PhoneBook& book, InfoType type)
 		}
 		else if (type == PHONENUMBER)
 		{
-			std::cout << "Phonenumber (can't leave empty): \n";
+			std::cout << "Phonenumber (can't leave empty): " << std::endl;
 			std::cin >> book.person[book.curr].phone_number;
 			if (!book.person[book.curr].phone_number.empty())
 				break ;
@@ -157,7 +155,7 @@ int	add_info(PhoneBook& book, InfoType type)
 		}
 		else if (type == DARKEST_SECRET)
 		{
-			std::cout << "Darkest secret (can't leave empty): \n";
+			std::cout << "Darkest secret (can't leave empty): " << std::endl;
 			std::cin >> book.person[book.curr].darkest_secret;
 			if (!book.person[book.curr].darkest_secret.empty())
 				break ;
@@ -195,7 +193,7 @@ int	main(void)
 	book.total = 0;
 	while (1)
 	{
-		std::cout << "Type ADD to add a contact, SEARCH to look for a contact and EXIT to exit\n";
+		std::cout << "Type ADD to add a contact, SEARCH to look for a contact and EXIT to exit" << std::endl;
 		std::cin >> action;
 		if (action.empty())
 			break ;
