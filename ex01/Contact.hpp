@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PhoneBook.hpp                                      :+:      :+:    :+:   */
+/*   Contact.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 12:06:00 by msuokas           #+#    #+#             */
-/*   Updated: 2025/08/14 09:48:46 by msuokas          ###   ########.fr       */
+/*   Created: 2025/08/13 12:05:30 by msuokas           #+#    #+#             */
+/*   Updated: 2025/08/13 15:49:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONEBOOK_HPP
-#define PHONEBOOK_HPP
+#ifndef CONTACT_HPP
+#define CONTACT_HPP
 
 #include <iostream>
-#include "Contact.hpp"
-#include <iomanip>
 
-class PhoneBook {
+enum InfoType {
+	FIRST_NAME,
+	LAST_NAME,
+	NICKNAME,
+	PHONENUMBER,
+	DARKEST_SECRET
+};
+
+class Contact {
 	private:
-		Contact	contacts[8];
-		int	curr;
-		int	total;
+		std::string first_name;
+		std::string last_name;
+		std::string nickname;
+		std::string phone_number;
+		std::string darkest_secret;
 	public:
-		PhoneBook();
-		~PhoneBook();
-		bool addContact(const Contact& contact);
-		Contact getContact(int index) const;
-		int	getTotal() const;
+		Contact();
+		~Contact();
+		void setInfo(InfoType type, const std::string& value);
+		std::string getInfo(InfoType type) const;
 };
 
 #endif

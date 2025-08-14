@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 11:24:25 by msuokas           #+#    #+#             */
-/*   Updated: 2025/07/07 11:42:09 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/08/14 11:26:07 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	case_up(char *str)
 	int	i = 0;
 	while (str[i])
 	{
-		std::cout << (char)std::toupper(str[i]) << std::endl;
+		std::cout << (char)std::toupper(str[i]);
 		i++;
 	}
-	std::cout << " ";
 }
 
 int	main(int argc, char *argv[])
@@ -32,6 +31,9 @@ int	main(int argc, char *argv[])
 	while (argv[i])
 	{
 		case_up(argv[i]);
+		std::cout << " ";
 		i++;
 	}
+	if (argc > 1)
+		std::cout << std::endl;
 }
